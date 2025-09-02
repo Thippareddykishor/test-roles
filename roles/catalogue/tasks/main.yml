@@ -1,0 +1,19 @@
+- name: load nodejs
+  ansible.builtin.include_role: 
+    name: common
+    tasks_from: nodejs
+
+- name: copy mongodb
+  ansible.builtin.template:
+    src: mongo.repo
+    dest: /etc/yum.repos.d/mongo.repo
+
+- name: install mongodb
+  ansible.builtin.dnf:
+    name: mongodb-mongosh
+
+# - name:: load master data
+#   ansible.builtin.shell: mongosh --host 172.31.89.145 </app/db/master-data.js 
+
+- name: Load master data`
+  ansible.builtin.shell: mongosh --host mongodb-{{ env }}.kommanuthala.store </app/db/master-data.js
